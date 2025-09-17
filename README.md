@@ -5,14 +5,10 @@
         -- Menu cargar 1- datos.json 2- datos.txt
         -- Segundo menu 1- registrar carta, 2- Modificar, 3- Mostrar/buscar carta, 4- Borrar
 ### Progreso
-    -- Hemos creado el menu
-    -- Ya cargamos el archivo Json y el txt
-    -- hecho los metodos de la clase coleccion
+    -- codigo creado
+    -- retocando figma
 #### Pendiente
-    --Registrar una carta
-    --Modificar
-    --Mostrar
-    --Borrar
+    -- modular codigo
         --Interface
             --Cambiar el fondo
             --Retocar botones colores etc.
