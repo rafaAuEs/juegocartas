@@ -8,9 +8,6 @@
     -- codigo creado
     -- figma creado
 #### Pendiente
-    -- modular codigo
-        --Interface
-        --Aprender a usar java fx
-        --Usar java fx
-    -- conectar una base de datos:
-        -- sql
+    --Interface
+    --Aprender a usar java fx
+    --Usar java fx
