@@ -6,9 +6,11 @@
         -- Segundo menu 1- registrar carta, 2- Modificar, 3- Mostrar/buscar carta, 4- Borrar
 ### Progreso
     -- codigo creado
-    -- retocando figma
+    -- figma creado
 #### Pendiente
     -- modular codigo
         --Interface
-            --Cambiar el fondo
-            --Retocar botones colores etc.
+        --Aprender a usar java fx
+        --Usar java fx
+    -- conectar una base de datos:
+        -- sql
