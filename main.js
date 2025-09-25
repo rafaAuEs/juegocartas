@@ -39,8 +39,9 @@ async function main(){
         console.clear();
         console.log("1. Cargar datos json");
         console.log("2. Cargar datos txt");
-        console.log("3. Conectar base de datos");
-        console.log("4. Salir");
+        console.log("3. Conectar con Worckbench");
+        console.log("4. Conectar MongoDB");
+        console.log("5. Salir");
         let opcion = parseInt(prompt("Elije una opcion: "));
         switch (opcion){
             case 1:
@@ -150,9 +151,31 @@ async function main(){
                         }
                     }
             case 4:
-                salir = true;
+                salir =true;
                 console.clear();
                 console.log("Se ha cerrado el programa");
+            case 5:
+                // conectar a mongodb.
+                let salir7 = false;
+                while(!salir7){
+                    let opcion= parseInt(prompt("Elije una opcion"));
+                    switch(opcion) {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
+                        default:
+                            console.log("error");
+                            prompt("Pulsa ENTER para continuar");
+                            break;
+                    }
+                }
                 break;
             default:
                 console.log("Error");

@@ -3,10 +3,56 @@ const prompt = require('prompt-sync')();
 const fs = require('fs');
 const conectar = require('./db.js');
 const Cartas = require('./Cartas.js');
+const {connecion, getDB} = require('./db.js');
 //clases
 class Coleccion {
     constructor(){
         this.coleccion=[];
+    }
+    async cargarBDM() {
+        const db = await getDB();//hacemos la conexion
+        const cartasCollection = db.collection('cartas');//cojemos la tabla cartas de la base de datos
+        const cartasDocs = await cartasCollection.find({}).toArray();//le dice a mongodb que busque los datos de la tabla, y luego los convierte en un array
+        this.coleccion = cartasDocs.map(doc => new Cartas(doc.nombre, doc.vida, doc.fuerza));
+    }
+    async guardarBDM(carta) {
+        const db = await getDB();
+        const cartasCollection = db.collection('cartas');
+        await cartasCollection.insertOne(carta);
+        this.coleccion.push(carta);
+    }
+    async modificarBDM(nombreAnterior, nombreNuevo, nuevaVida, nuevaFuerza){
+        console.clear();
+        const cartaEncontrada = this.coleccion.find(c => c.nombre === nombreAnterior);
+        if  (cartaEncontrada) {
+            const db = await getDB();
+            const cartasCollection = db.collection('cartas');
+            const filtro = { nombre: nombreAnterior}
+            const actualizacion = {set: { nombre: nombreNuevo, vida: nuevaVida, fuerza: nuevaFuerza}}
+            await cartasCollection.updateOne(filtro, actualizacion);
+            cartaEncontrada.nombre = nombreNuevo;
+            cartaEncontrada.vida = nuevaVida;
+            cartaEncontrada.fuerza = nuevaFuerza;
+        }
+        else{
+            console.log("ERROR no existe ese nombre: ");
+            prompt("Pulse ENTER para continuar: ");
+        }
+    }
+    async borrarBDM(nombre) {
+        console.clear();
+        const cartaEncontrada = this.coleccion.find(c => c.nombre === nombre);
+        if (cartaEncontrada) {
+            const db = await getDB();
+            const cartasCollection = db.collection('cartas');
+            const filtro = { nombre: nombre };
+            await cartasCollection.deleteOne(filtro);
+            this.coleccion = this.coleccion.filter(carta => carta.nombre !==nombre);
+        }
+        else{
+            console.log("ERROR no existe ese nombre: ");
+            prompt("Pulse ENTER para continuar: ");
+        }
     }
     async cargarBD(){
         const conectando = await conectar;
@@ -83,19 +129,24 @@ class Coleccion {
         }
     }
     async modificarBD(nombreAnterior, nombreNuevo, nuevaVida, nuevaFuerza) {
+        console.clear();
+        const cartaEncontrada = this.coleccion.find(c => c.nombre === nombreAnterior);
+        if (cartaEncontrada) {
         const connection = await conectar;
         const sql = 'UPDATE cartas SET nombre = ?, vida = ?, fuerza = ? WHERE nombre = ?';
         await connection.execute(sql, [nombreNuevo, nuevaVida, nuevaFuerza, nombreAnterior]);
-        // Actualiza la colección en memoria
-        const cartaEncontrada = this.coleccion.find(c => c.nombre === nombreAnterior);
-        if (cartaEncontrada) {
             cartaEncontrada.nombre = nombreNuevo;
             cartaEncontrada.vida = nuevaVida;
             cartaEncontrada.fuerza = nuevaFuerza;
         }
+        else {
+            console.log("ERROR no existe ese nombre: ");
+            prompt("Pulse ENTER para continuar: ");
+        }
     }
     
     async borrarBD(nombre) {
+        console.clear();
         const connection = await conectar;
         const sql = 'DELETE FROM cartas WHERE nombre = ?';
         await connection.execute(sql, [nombre]);
