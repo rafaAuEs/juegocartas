@@ -10,6 +10,7 @@ function anhadirCarta (){
             let nuevaVida = parseInt(prompt("Introduce vida: "));
             let nuevaFuerza = parseInt(prompt("Introduce fuerza: "));
             if (typeof nuevoNombre==="string" && !isNaN(nuevaVida) && !isNaN(nuevaFuerza)){
+                console.log("console");
                 return new Cartas(nuevoNombre,nuevaVida,nuevaFuerza);
             }
             else{

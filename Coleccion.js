@@ -4,6 +4,7 @@ const fs = require('fs');
 const conectar = require('./db.js');
 const Cartas = require('./Cartas.js');
 const {connecion, getDB} = require('./db.js');
+const {MongoClient,ObjectId} = require('mongodb');
 //clases
 class Coleccion {
     constructor(){
@@ -18,7 +19,9 @@ class Coleccion {
     async guardarBDM(carta) {
         const db = await getDB();
         const cartasCollection = db.collection('cartas');
-        await cartasCollection.insertOne(carta);
+        let op =await cartasCollection.insertOne(carta);
+        console.log("id",op.insertedId," ",op.acknowledged);
+        prompt("pause");
         this.coleccion.push(carta);
     }
     async modificarBDM(nombreAnterior, nombreNuevo, nuevaVida, nuevaFuerza){

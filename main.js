@@ -6,10 +6,11 @@ const Coleccion = require('./Coleccion.js');
 const mysql = require('mysql2/promise');
 const conectar = require('./db.js');
 const Cartas = require('./Cartas.js');
+const { MongoClient, ObjectId, client } = require('mongodb');
 //variables
     let coleccion = new Coleccion();
     let nuevaCarta;
-    
+
     /*const conexion=mysql.createConnection( {
         host: 'localhost',
         user: 'root',
@@ -151,24 +152,34 @@ async function main(){
                         }
                     }
             case 4:
-                salir =true;
-                console.clear();
-                console.log("Se ha cerrado el programa");
-            case 5:
                 // conectar a mongodb.
                 let salir7 = false;
                 while(!salir7){
-                    let opcion= parseInt(prompt("Elije una opcion"));
+                    funcion.menu2();
+                    let opcion = parseInt(prompt("Elije una opcion: "));
                     switch(opcion) {
                         case 1:
+                            let nuevaCartaBDM=funcion.anhadirCarta();
+                            prompt("pausa");
+                            await coleccion.guardarBDM(nuevaCartaBDM);
                             break;
                         case 2:
+                            let nombreAnterior = prompt("Introduce el nombre para modificar: ");
+                            let nuevoNombre = prompt("Introduce el nuevo nombre: ");
+                            let vidaNueva = parseInt(prompt("Introduce la vida nueva: "));
+                            let fuerzaNueva = parseInt(prompt("Introduce la fuerza nueva: "));
+                            await coleccion.modificarBDM(nombreAnterior, nuevoNombre, vidaNueva, fuerzaNueva);
                             break;
                         case 3:
+                            funcion.mostrarColeccion(coleccion);
                             break;
                         case 4:
+                            let buscarNombreBDM = prompt("Introduce el nombre: ");
+                            await coleccion.borrarBDM(buscarNombreBDM);
                             break;
                         case 5:
+                            await client.close();
+                            salir7 = true;
                             break;
                         default:
                             console.log("error");
@@ -176,6 +187,10 @@ async function main(){
                             break;
                     }
                 }
+            case 5:
+                salir =true;
+                console.clear();
+                console.log("Se ha cerrado el programa");
                 break;
             default:
                 console.log("Error");
