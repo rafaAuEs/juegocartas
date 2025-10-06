@@ -11,6 +11,12 @@ class Coleccion {
         this.coleccion=[];
     }
     async cargarBDM() {
+        try {
+            const db = await getDB();//hacemos la conexion
+            console.log("Conectado");
+        }catch (err){
+            console.err();
+        }
         const db = await getDB();//hacemos la conexion
         const cartasCollection = db.collection('cartas');//cojemos la tabla cartas de la base de datos
         const cartasDocs = await cartasCollection.find({}).toArray();//le dice a mongodb que busque los datos de la tabla, y luego los convierte en un array

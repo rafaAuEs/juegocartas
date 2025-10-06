@@ -6,11 +6,14 @@ const Coleccion = require('./Coleccion.js');
 const mysql = require('mysql2/promise');
 const conectar = require('./db.js');
 const Cartas = require('./Cartas.js');
-const { MongoClient, ObjectId, client } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
+const {connecion, getDB} = require('./db.js');
+const uri = "mongodb://localhost:27017";
+const client = new MongoClient(uri);
 //variables
     let coleccion = new Coleccion();
     let nuevaCarta;
-
+    
     /*const conexion=mysql.createConnection( {
         host: 'localhost',
         user: 'root',
@@ -153,6 +156,7 @@ async function main(){
                     }
             case 4:
                 // conectar a mongodb.
+                await coleccion.cargarBDM();
                 let salir7 = false;
                 while(!salir7){
                     funcion.menu2();
@@ -171,6 +175,7 @@ async function main(){
                             await coleccion.modificarBDM(nombreAnterior, nuevoNombre, vidaNueva, fuerzaNueva);
                             break;
                         case 3:
+                            await coleccion.cargarBDM();
                             funcion.mostrarColeccion(coleccion);
                             break;
                         case 4:
@@ -178,7 +183,7 @@ async function main(){
                             await coleccion.borrarBDM(buscarNombreBDM);
                             break;
                         case 5:
-                            await client.close();
+                            //await
                             salir7 = true;
                             break;
                         default:
